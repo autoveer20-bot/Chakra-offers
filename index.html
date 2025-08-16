@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="https://static.readdy.ai/static/e.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chakra-Day - Random Dining Offers</title>
+<h1>Why leave so soon?</h1>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#D4AF37',secondary:'#B8860B'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.gradient-bg {
+background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #134e4a 100%);
+}
+.offer-card {
+background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);
+border: 1px solid rgba(212, 175, 55, 0.3);
+}
+.logo-container {
+filter: drop-shadow(0 4px 8px rgba(212, 175, 55, 0.3));
+}
+.chakra-title {
+background: linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #B8860B 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+text-shadow: 0 2px 4px rgba(212, 175, 55, 0.3);
+}
+.reveal-button {
+background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+transition: all 0.3s ease;
+}
+.reveal-button:hover {
+transform: translateY(-2px);
+box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+}
+.shuffle-button {
+background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+transition: all 0.3s ease;
+}
+.shuffle-button:hover {
+transform: translateY(-2px);
+box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+}
+.copy-button {
+background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+transition: all 0.3s ease;
+}
+.copy-button:hover {
+transform: translateY(-1px);
+box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+}
+.pulsing {
+animation: pulse 2s infinite;
+}
+@keyframes pulse {
+0%, 100% { opacity: 1; }
+50% { opacity: 0.7; }
+}
+.countdown {
+background: linear-gradient(135deg, rgba(239, 68, 68, 0.9) 0%, rgba(185, 28, 28, 0.9) 100%);
+}
+</style>
+</head>
+<body class="min-h-screen gradient-bg text-white font-sans">
+<div class="min-h-screen flex flex-col items-center justify-center px-4 py-8">
+<div class="w-full max-w-2xl mx-auto">
+<div class="text-center mb-8">
+<div class="logo-container mb-6">
+<img src="https://static.readdy.ai/image/41e4414ca76707010c64bb5f3a235ad9/28e5fd325fb82fe5a68d2c33ded4d221.png"
+alt="Namaste Dwar Logo"
+class="w-48 h-32 mx-auto object-contain">
+</div>
+<h1 class="text-5xl font-bold chakra-title mb-4 tracking-wide">Chakra-Day</h1>
+<div class="inline-block bg-primary/20 border border-primary/40 rounded-full px-4 py-2 text-sm font-medium text-primary mb-6">
+I75 FESTIVAL OFFERS
+</div>
+</div>
+<div class="offer-card rounded-2xl p-8 backdrop-blur-sm">
+<div class="text-center mb-8">
+<h2 class="text-3xl font-bold mb-4 flex items-center justify-center gap-3">
+Tap to reveal your random dining perk
+<span class="text-2xl">🎉</span>
+</h2>
+<p class="text-slate-300 text-lg">
+Seats available within 45 minutes. Show the screen at the counter and take a screenshot to claim.
+</p>
+</div>
+<div class="flex justify-center mb-8">
+<button id="revealBtn" class="reveal-button text-white font-semibold px-8 py-4 !rounded-button text-lg whitespace-nowrap flex items-center gap-2">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-gift-line"></i>
+</div>
+Reveal my offer
+</button>
+</div>
+<div id="offerDisplay" class="hidden">
+<div class="border-2 border-dashed border-primary/40 rounded-xl p-6 bg-slate-800/50">
+<div class="flex items-start justify-between mb-4">
+<div class="flex-1">
+<h3 id="offerTitle" class="text-2xl font-bold text-white mb-2"></h3>
+<p class="text-slate-300">Seat within 45 mins.</p>
+</div>
+<div class="countdown rounded-lg px-3 py-1 text-sm font-bold text-white ml-4">
+<div class="w-4 h-4 flex items-center justify-center inline-block mr-1">
+<i class="ri-time-line"></i>
+</div>
+<span id="countdown">45:00</span>
+</div>
+</div>
+<div class="flex items-center gap-4 mb-4">
+<div class="bg-slate-700 rounded-lg px-4 py-3 font-mono text-lg font-bold text-primary flex-1">
+<span id="offerCode"></span>
+</div>
+<button id="copyBtn" class="copy-button text-white font-semibold px-6 py-3 !rounded-button whitespace-nowrap flex items-center gap-2">
+<div class="w-4 h-4 flex items-center justify-center">
+<i class="ri-file-copy-line"></i>
+</div>
+Copy code
+</button>
+</div>
+<div class="text-sm text-slate-400 mb-4">
+<p class="flex items-center gap-2 mb-2">
+<div class="w-4 h-4 flex items-center justify-center">
+<i class="ri-information-line"></i>
+</div>
+Tip: Take a screenshot now. Each refresh can reveal a different offer.
+</p>
+</div>
+<div class="bg-emerald-900/30 border border-emerald-500/30 rounded-lg px-4 py-3">
+<p class="text-emerald-300 text-sm font-medium flex items-center gap-2">
+<div class="w-4 h-4 flex items-center justify-center">
+<i class="ri-lock-line"></i>
+</div>
+Locked for this session. Refresh to try your luck again.
+</p>
+</div>
+</div>
+</div>
+<div class="text-center text-slate-500 text-sm mt-6">
+<p>Session: I75-<span id="sessionId"></span> • Page: local</p>
+</div>
+</div>
+</div>
+</div>
+<script id="offer-system">
+const offers = [
+{
+title: "₹300 off your bill (min ₹1,200)",
+code: "I75-300"
+},
+{
+title: "10% off food (cap ₹200)",
+code: "I75-10A"
+},
+{
+title: "10% off food (cap ₹200)",
+code: "I75-10B"
+},
+{
+title: "Free starter up to ₹220",
+code: "I75-ST1"
+},
+{
+title: "Free starter up to ₹220",
+code: "I75-ST2"
+},
+{
+title: "Free mocktail up to ₹180",
+code: "I75-MK1"
+},
+{
+title: "Free mocktail up to ₹180",
+code: "I75-MK2"
+},
+{
+title: "Free dessert up to ₹120",
+code: "I75-DS1"
+},
+{
+title: "Free dessert up to ₹120",
+code: "I75-DS2"
+},
+{
+title: "Kids dessert free (max 2)",
+code: "I75-KD"
+}
+];
+let currentOffer = null;
+let countdownInterval = null;
+let isRevealed = false;
+function generateSessionId() {
+return Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+}
+function getRandomOffer() {
+return offers[Math.floor(Math.random() * offers.length)];
+}
+function displayOffer(offer) {
+document.getElementById('offerTitle').textContent = offer.title;
+document.getElementById('offerCode').textContent = offer.code;
+document.getElementById('offerDisplay').classList.remove('hidden');
+startCountdown();
+}
+function startCountdown() {
+let timeLeft = 45 * 60;
+const countdownElement = document.getElementById('countdown');
+if (countdownInterval) {
+clearInterval(countdownInterval);
+}
+countdownInterval = setInterval(() => {
+const minutes = Math.floor(timeLeft / 60);
+const seconds = timeLeft % 60;
+countdownElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+if (timeLeft <= 0) {
+clearInterval(countdownInterval);
+countdownElement.textContent = "Expired";
+}
+timeLeft--;
+}, 1000);
+}
+function revealOffer() {
+if (isRevealed) return;
+currentOffer = getRandomOffer();
+displayOffer(currentOffer);
+isRevealed = true;
+document.getElementById('revealBtn').disabled = true;
+document.getElementById('revealBtn').classList.add('opacity-50', 'cursor-not-allowed');
+}
+function shuffleOffer() {
+if (!isRevealed) return;
+currentOffer = getRandomOffer();
+displayOffer(currentOffer);
+}
+function copyCode() {
+if (currentOffer) {
+navigator.clipboard.writeText(currentOffer.code).then(() => {
+const copyBtn = document.getElementById('copyBtn');
+const originalText = copyBtn.innerHTML;
+copyBtn.innerHTML = '<div class="w-4 h-4 flex items-center justify-center"><i class="ri-check-line"></i></div>Copied!';
+setTimeout(() => {
+copyBtn.innerHTML = originalText;
+}, 2000);
+});
+}
+}
+document.getElementById('sessionId').textContent = generateSessionId();
+document.getElementById('revealBtn').addEventListener('click', revealOffer);
+
+document.getElementById('copyBtn').addEventListener('click', copyCode);
+</script>
+<script id="auto-reveal">
+document.addEventListener('DOMContentLoaded', function() {
+setTimeout(() => {
+if (!isRevealed) {
+revealOffer();
+}
+}, 1500);
+});
+</script>
+<script src="https://static.readdy.ai/static/share.js"></script></body>
+</html>
